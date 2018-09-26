@@ -1,0 +1,9 @@
+$network = ((Get-WmiObject Win32_NetworkAdapterConfiguration -Filter 'IPEnabled=True').IPAddress[0]).Split('.')[2]
+Import-Csv .\printers.csv | 
+    foreach-object 
+    { 
+        if ($_.printerNetwork -eq $network)
+        {
+        Add-Printer -ConnectionName $_.printerShare
+        }
+    } 
